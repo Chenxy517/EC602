@@ -95,10 +95,20 @@ char tttresult(string board) {
         return 'i';
     }
     else if (x_flag == 1 & o_flag == 0) {
-        return 'x';
+        if (x == o) {
+            return 'i';
+        }
+        else {
+            return 'x';
+        }
     }
     else if (x_flag == 0 & o_flag == 1) {
-        return 'o';
+        if (x == o) {
+            return 'o';
+        }
+        else {
+            return 'i';
+        }
     }
     else if (space == 0) {
         return 't';
@@ -123,6 +133,10 @@ char tttresult(vector<Move> board) {
         int col = (*cur).c;
         int index = row  * 3 + col;
 
+        if (row < 0 || row > 2 || col < 0 || col > 2) {
+            return 'e';
+        }
+
         if ((*cur).player == 'x') {
             gameboard.at(index) = 'x';
             x++;
@@ -144,7 +158,7 @@ char tttresult(vector<Move> board) {
             o++;
 
             // Check round order
-            if (o - x > 1) {
+            if (o > x) {
                 return 'i';
             }
 
