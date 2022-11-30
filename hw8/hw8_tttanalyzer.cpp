@@ -11,23 +11,23 @@ bool checkWinner(char board[3][3], int i, int j) {
     char cur = board[i][j];
 
     // Check row
-    if (cur == board[i][(j + 1) % 3] && cur == board[i][(j - 1) % 3] && board[i][(j + 1) % 3] == board[i][(j - 1) % 3]) {
+    if ((cur == board[i][(((j + 1) % 3) + 3) % 3]) && (cur == board[i][(((j - 1) % 3) + 3) % 3]) && (board[i][(((j + 1) % 3) + 3) % 3] == board[i][(((j - 1) % 3) + 3) % 3])) {
         return true;
     }
 
     // Check col
-    if (cur == board[(i + 1) % 3][j] && cur == board[(i - 1) % 3][j] && board[(i + 1) % 3][j] == board[(i - 1) % 3][j]) {
+    if ((cur == board[(((i + 1) % 3) + 3) % 3][j]) && (cur == board[(((i - 1) % 3) + 3) % 3][j]) && (board[(((i + 1) % 3) + 3) % 3][j] == board[(((i - 1) % 3) + 3) % 3][j])) {
         return true;
     }
 
     // Check cross
     if (i == j) {
-        if (cur == board[(i + 1) % 3][(j + 1) % 3] && cur == board[(i - 1) % 3][(j - 1) % 3] && board[(i + 1) % 3][(j + 1) % 3] == board[(i - 1) % 3][(j - 1) % 3]) {
+        if ((cur == board[(((i + 1) % 3) + 3) % 3][(((j + 1) % 3) + 3) % 3]) && (cur == board[(((i - 1) % 3) + 3) % 3][(((j - 1) % 3) + 3) % 3]) && (board[(((i + 1) % 3) + 3) % 3][(((j + 1) % 3) + 3) % 3] == board[(((i - 1) % 3) + 3) % 3][(((j - 1) % 3) + 3) % 3])) {
             return true;
         }
     } 
     else if (i + j == 2) {
-        if (cur == board[(i + 1) % 3][(j - 1) % 3] && cur == board[(i - 1) % 3][(j + 1) % 3] && board[(i + 1) % 3][(j - 1) % 3] == board[(i - 1) % 3][(j + 1) % 3]) {
+        if ((cur == board[(((i + 1) % 3) + 3) % 3][(((j - 1) % 3) + 3) % 3]) && (cur == board[(((i - 1) % 3) + 3) % 3][(((j + 1) % 3) + 3) % 3]) && (board[(((i + 1) % 3) + 3) % 3][(((j - 1) % 3) + 3) % 3] == board[(((i - 1) % 3) + 3) % 3][(((j + 1) % 3) + 3) % 3])) {
             return true;
         }
     }
@@ -255,9 +255,6 @@ int main() {
     // result = tttresult(moves);  // returns 'c'
     // cout << result << endl;
     
-    // result = tttresult("xox#x#xox"); // returns 'x'
-    // cout << result << endl;
-    // result = tttresult("xoxoxoxox"); // returns 'e'
-    // cout << result << endl;
-    ttt_tally();
+    result = tttresult("####oxxxo"); // returns 'e'
+    cout << result << endl;
 }
