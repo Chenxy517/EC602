@@ -9,27 +9,27 @@
 
 using namespace std;
 
-bool checkWinner(char board[3][3], int i, int j) {
-    char cur = board[i][j];
+bool checkWinner(string board, int i, int j) {
+    char cur = board.at(i * 3 + j);
 
     // Check row
-    if ((cur == board[i][(((j + 1) % 3) + 3) % 3]) && (cur == board[i][(((j - 1) % 3) + 3) % 3]) && (board[i][(((j + 1) % 3) + 3) % 3] == board[i][(((j - 1) % 3) + 3) % 3])) {
+    if (cur == board.at(i * 3 + (((j + 1) % 3) + 3) % 3) && cur == board.at(i * 3 + (((j - 1) % 3) + 3) % 3)) {
         return true;
     }
 
     // Check col
-    if ((cur == board[(((i + 1) % 3) + 3) % 3][j]) && (cur == board[(((i - 1) % 3) + 3) % 3][j]) && (board[(((i + 1) % 3) + 3) % 3][j] == board[(((i - 1) % 3) + 3) % 3][j])) {
+    if (cur == board.at(((((i + 1) % 3) + 3) % 3) * 3 + j) && cur == board.at(((((i - 1) % 3) + 3) % 3) * 3 + j)) {
         return true;
     }
 
     // Check cross
     if (i == j) {
-        if ((cur == board[(((i + 1) % 3) + 3) % 3][(((j + 1) % 3) + 3) % 3]) && (cur == board[(((i - 1) % 3) + 3) % 3][(((j - 1) % 3) + 3) % 3]) && (board[(((i + 1) % 3) + 3) % 3][(((j + 1) % 3) + 3) % 3] == board[(((i - 1) % 3) + 3) % 3][(((j - 1) % 3) + 3) % 3])) {
+        if (cur == board.at(((((i + 1) % 3) + 3) % 3) * 3 + (((j + 1) % 3) + 3) % 3) && cur == board.at(((((i - 1) % 3) + 3) % 3) * 3 + (((j - 1) % 3) + 3) % 3)) {
             return true;
         }
     } 
     else if (i + j == 2) {
-        if ((cur == board[(((i + 1) % 3) + 3) % 3][(((j - 1) % 3) + 3) % 3]) && (cur == board[(((i - 1) % 3) + 3) % 3][(((j + 1) % 3) + 3) % 3]) && (board[(((i + 1) % 3) + 3) % 3][(((j - 1) % 3) + 3) % 3] == board[(((i - 1) % 3) + 3) % 3][(((j + 1) % 3) + 3) % 3])) {
+        if (cur == board.at(((((i + 1) % 3) + 3) % 3) * 3 + (((j - 1) % 3) + 3) % 3) && cur == board.at(((((i - 1) % 3) + 3) % 3) * 3 + (((j + 1) % 3) + 3) % 3)) {
             return true;
         }
     }
@@ -37,18 +37,10 @@ bool checkWinner(char board[3][3], int i, int j) {
     return false;
 }
 
-char tttresult(string tttboard) {
+char tttresult(string board) {
     // Invalid board size
-    if (tttboard.size() != 9) {
+    if (board.size() != 9) {
         return 'e';
-    }
-
-    // Convert string to char array
-    char board[3][3];
-    for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 3; j++) {
-            board[i][j] = tttboard[i * 3 + j];
-        }
     }
 
     // Count number of spaces and symbols
@@ -63,10 +55,11 @@ char tttresult(string tttboard) {
     // Loop through the board
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
-            if (board[i][j] == '#') {
+            int index = i * 3 + j;
+            if (board.at(index) == '#') {
                 space++;
             } 
-            else if (board[i][j] == 'x') {
+            else if (board.at(index) == 'x') {
                 x++;
 
                 // If x is not winner yet, do the check
@@ -76,7 +69,7 @@ char tttresult(string tttboard) {
                     }
                 }
             }
-            else if (board[i][j] == 'o') {
+            else if (board.at(index) == 'o') {
                 o++;
 
                 // If x is not winner yet, do the check
@@ -117,7 +110,7 @@ char tttresult(string tttboard) {
 
 char tttresult(vector<Move> board) {
     // initialize game board
-    char gameboard[3][3];
+    string gameboard;
     int x = 0;
     int o = 0;
     
@@ -128,9 +121,10 @@ char tttresult(vector<Move> board) {
     for (vector<Move>::iterator cur = board.begin(); cur != board.end(); cur++) {
         int row = (*cur).r;
         int col = (*cur).c;
+        int index = row  * 3 + col;
 
         if ((*cur).player == 'x') {
-            gameboard[row][col] = 'x';
+            gameboard.at(index) = 'x';
             x++;
 
             // Check round order
@@ -146,7 +140,7 @@ char tttresult(vector<Move> board) {
             }
         }
         else if ((*cur).player == 'o') {
-            gameboard[row][col] = 'o';
+            gameboard.at(index) = 'o';
             o++;
 
             // Check round order
@@ -236,7 +230,7 @@ void ttt_tally() {
         }
     }
     cout << "x " << x_cnt << endl;
-    cout << "o "  << o_cnt << endl;
+    cout << "o " << o_cnt << endl;
     cout << "t " << t_cnt << endl;
     cout << "i " << i_cnt << endl;
     cout << "c " << c_cnt << endl;
