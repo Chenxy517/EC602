@@ -1,3 +1,5 @@
+// Copyright 2022 XingyuChen chxy517@bu.edu
+
 #include <iostream>
 #include <string>
 #include <array>
@@ -92,7 +94,7 @@ char tttresult(string tttboard) {
     }
 
     // Check unbalance number
-    if (x - o > 1 || o - x > 1) {
+    if (x - o > 1 || o > x) {
         return 'i';
     }
 
@@ -239,6 +241,8 @@ void ttt_tally() {
     cout << "i " << i_cnt << endl;
     cout << "c " << c_cnt << endl;
 }
+
+// MAIN
 
 int main() {
     vector<Move> moves;
