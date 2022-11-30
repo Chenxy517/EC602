@@ -119,76 +119,24 @@ char tttresult(string board) {
 }
 
 char tttresult(vector<Move> board) {
-    // initialize game board
-    string gameboard;
-    int x = 0;
-    int o = 0;
-    
-    // Flags that show the winner
-    int x_flag = 0;
-    int o_flag = 0;
+    string s = "#########";
 
-    for (vector<Move>::iterator cur = board.begin(); cur != board.end(); cur++) {
-        int row = (*cur).r;
-        int col = (*cur).c;
-        int index = row  * 3 + col;
-
-        if (row < 0 || row > 2 || col < 0 || col > 2) {
+    for (int i = 0; i < board.size(); i++) {
+        int index = board.at(i).r * 3 + board.at(i).c;
+        
+        // Row, Col size check && Player char check
+        if (board.at(i).r > 2 || board.at(i).c > 2 || board.at(i).player != 'x' && board.at(i).player != 'o') {
             return 'e';
         }
 
-        if ((*cur).player == 'x') {
-            gameboard.at(index) = 'x';
-            x++;
+        s.at(index) = board.at(i).player;
 
-            // Check round order
-            if (x - o > 1) {
-                return 'i';
-            }
-
-            // Check winner
-            if (x_flag == 0) {
-                if (checkWinner(gameboard, row, col)) {
-                    x_flag = 1;
-                }
-            }
-        }
-        else if ((*cur).player == 'o') {
-            gameboard.at(index) = 'o';
-            o++;
-
-            // Check round order
-            if (o > x) {
-                return 'i';
-            }
-
-            // Check winner
-            if (o_flag == 0) {
-                if (checkWinner(gameboard, row, col)) {
-                    o_flag = 1;
-                }
-            }
-        }
-        else {
+        // First player char check, consecutive players cannot be the same check
+        if (i != board.size() - 1 && s.at(index) == board.at(i + 1).player || board.at(0).player != 'x') {
             return 'i';
         }
     }
-
-    if (x_flag == 1 & o_flag == 1) {
-        return 'i';
-    }
-    else if (x_flag == 1 & o_flag == 0) {
-        return 'x';
-    }
-    else if (x_flag == 0 & o_flag == 1) {
-        return 'o';
-    }
-    else if (board.size() == 9) {
-        return 't';
-    } 
-    else {
-        return 'c';
-    }
+    return tttresult(s);
 }
 
 void permutation(string& cur, vector<string>& result) {
